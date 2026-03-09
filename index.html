@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>일본 회화 도우미</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f6fb; color: #1c2434; }
+    .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+    h1 { margin-bottom: 8px; }
+    .subtitle { margin-top: 0; color: #4a5670; }
+    .controls { display: grid; grid-template-columns: 1fr 220px; gap: 12px; margin: 20px 0; }
+    input, select { padding: 12px; border: 1px solid #c5cde0; border-radius: 10px; font-size: 16px; }
+    .cards { display: grid; gap: 12px; }
+    .card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+    .jp { font-size: 20px; font-weight: 700; }
+    .kana { color: #3f4d66; margin-top: 4px; }
+    .ko { margin-top: 8px; font-size: 17px; }
+    .tag { display: inline-block; margin-top: 10px; background: #eaf0ff; color: #2446a8; border-radius: 999px; padding: 4px 10px; font-size: 12px; }
+    .empty { text-align: center; padding: 28px; color: #5f6b83; }
+    @media (max-width: 700px){ .controls{grid-template-columns: 1fr;} }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>🇯🇵 일본 회화 도우미</h1>
+    <p class="subtitle">일본 여행/생활에서 바로 쓸 수 있는 필수 회화를 빠르게 찾아보세요.</p>
+
+    <section class="controls">
+      <input id="searchInput" placeholder="예: 화장실, 계산, 역" />
+      <select id="categorySelect">
+        <option value="all">전체 카테고리</option>
+      </select>
+    </section>
+
+    <section id="cards" class="cards"></section>
+  </main>
+
+  <script>
+    const phrases = [
+      { category: '기본 인사', ko: '안녕하세요', jp: 'こんにちは', kana: '곤니치와', romaji: 'Konnichiwa' },
+      { category: '기본 인사', ko: '감사합니다', jp: 'ありがとうございます', kana: '아리가토 고자이마스', romaji: 'Arigatou gozaimasu' },
+      { category: '기본 인사', ko: '죄송합니다', jp: 'すみません', kana: '스미마센', romaji: 'Sumimasen' },
+      { category: '이동/교통', ko: '역이 어디에 있나요?', jp: '駅はどこですか？', kana: '에키와 도코데스카?', romaji: 'Eki wa doko desu ka?' },
+      { category: '이동/교통', ko: '이 버스는 도쿄역에 가나요?', jp: 'このバスは東京駅に行きますか？', kana: '코노 바스와 토-쿄-에키니 이키마스카?', romaji: 'Kono basu wa Toukyou eki ni ikimasu ka?' },
+      { category: '식당', ko: '메뉴판 주세요', jp: 'メニューをお願いします', kana: '메뉴-오 오네가이시마스', romaji: 'Menyuu o onegaishimasu' },
+      { category: '식당', ko: '이거 하나 주세요', jp: 'これを一つください', kana: '코레오 히토츠 쿠다사이', romaji: 'Kore o hitotsu kudasai' },
+      { category: '식당', ko: '계산 부탁합니다', jp: 'お会計お願いします', kana: '오카이케이 오네가이시마스', romaji: 'Okaikei onegaishimasu' },
+      { category: '쇼핑', ko: '이거 얼마예요?', jp: 'これはいくらですか？', kana: '코레와 이쿠라데스카?', romaji: 'Kore wa ikura desu ka?' },
+      { category: '쇼핑', ko: '카드 결제 되나요?', jp: 'カードは使えますか？', kana: '카-도와 츠카에마스카?', romaji: 'Kaado wa tsukaemasu ka?' },
+      { category: '긴급', ko: '도와주세요', jp: '助けてください', kana: '타스케테 쿠다사이', romaji: 'Tasukete kudasai' },
+      { category: '긴급', ko: '한국어 가능한 분 계신가요?', jp: '韓国語が話せる人はいますか？', kana: '칸코쿠고가 하나세루 히토와 이마스카?', romaji: 'Kankokugo ga hanaseru hito wa imasu ka?' }
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const cards = document.getElementById('cards');
+
+    const categories = [...new Set(phrases.map(p => p.category))];
+    categories.forEach(c => {
+      const option = document.createElement('option');
+      option.value = c;
+      option.textContent = c;
+      categorySelect.appendChild(option);
+    });
+
+    function render() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const selected = categorySelect.value;
+      const filtered = phrases.filter(p => {
+        const categoryMatch = selected === 'all' || p.category === selected;
+        const text = `${p.ko} ${p.jp} ${p.kana} ${p.romaji}`.toLowerCase();
+        return categoryMatch && (!keyword || text.includes(keyword));
+      });
+
+      cards.innerHTML = '';
+      if (!filtered.length) {
+        cards.innerHTML = '<div class="card empty">검색 결과가 없습니다. 다른 키워드를 입력해보세요.</div>';
+        return;
+      }
+
+      filtered.forEach(p => {
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="jp">${p.jp}</div>
+          <div class="kana">${p.kana} · ${p.romaji}</div>
+          <div class="ko">${p.ko}</div>
+          <span class="tag">${p.category}</span>
+        `;
+        cards.appendChild(el);
+      });
+    }
+
+    searchInput.addEventListener('input', render);
+    categorySelect.addEventListener('change', render);
+    render();
+  </script>
+</body>
+</html>
