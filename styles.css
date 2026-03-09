@@ -1,0 +1,121 @@
+:root {
+  color-scheme: light;
+  font-family: "Noto Sans KR", system-ui, -apple-system, sans-serif;
+  background: #f6f7fb;
+  color: #222;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 8px;
+}
+
+.controls {
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto;
+  gap: 10px;
+}
+
+input,
+select,
+button {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.favorites-only {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phrase-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.phrase-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category {
+  font-size: 12px;
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.favorite-btn {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0;
+  color: #f59e0b;
+}
+
+.ja {
+  font-size: 20px;
+  margin: 8px 0 4px;
+}
+
+.romaji {
+  margin: 0;
+  color: #4b5563;
+}
+
+.ko {
+  margin-top: 8px;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.copy-btn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
