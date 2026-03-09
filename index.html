@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>일본 여행 회화 도우미</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>🇯🇵 일본 여행 회화 도우미</h1>
+        <p>상황별로 자주 쓰는 표현을 빠르게 찾아보고 즐겨찾기해보세요.</p>
+      </header>
+
+      <section class="controls">
+        <input id="searchInput" type="text" placeholder="예: 화장실, 계산, 길" />
+        <select id="categorySelect">
+          <option value="all">전체 카테고리</option>
+        </select>
+        <label class="favorites-only">
+          <input type="checkbox" id="favoritesOnly" />
+          즐겨찾기만 보기
+        </label>
+      </section>
+
+      <section>
+        <ul id="phraseList" class="phrase-list"></ul>
+        <p id="emptyState" class="empty" hidden>조건에 맞는 회화가 없습니다.</p>
+      </section>
+    </main>
+
+    <template id="phraseItemTemplate">
+      <li class="phrase-item">
+        <div class="meta">
+          <span class="category"></span>
+          <button class="favorite-btn" type="button" aria-label="즐겨찾기">☆</button>
+        </div>
+        <p class="ja"></p>
+        <p class="romaji"></p>
+        <p class="ko"></p>
+        <div class="actions">
+          <button class="copy-btn" type="button">일본어 문장 복사</button>
+        </div>
+      </li>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
